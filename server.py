@@ -69,11 +69,11 @@ def login():
             session['username'] = user.nombre_usuario
             print(session['username'])
 
-            # return redirect(url_for('welcome', username=user.username))
-            if is_admin():
-                return redirect(url_for('admin', username=user.nombre_usuario)) 
-            else:
-                return redirect(url_for('welcome', username=user.nombre_usuario))        
+            return redirect(url_for('welcome', username=user.nombre_usuario))
+            #if is_admin():
+                #return redirect(url_for('admin', username=user.nombre_usuario)) 
+            #else:
+                #return redirect(url_for('welcome', username=user.nombre_usuario))        
     return render_template('login.html', form=login_form)
 
 @app.route('/error_page')
@@ -132,19 +132,27 @@ def logout():
     session['username'] = 'Invitado' 
     return redirect(url_for('home'))
 
-@app.route('/crear_reclamo', methods=['GET', 'POST'])
+# Reclamos ---------------------------------------------------------------------------------------------
+@app.route("/crear_reclamo", methods=['GET', 'POST'])
 @login_required
 def crear_reclamo():
     if request.method == 'POST':
-        # Process
-        pass
-    return render_template('crear_reclamo.html')
-
+        if Reclamo.query.filter_by(texto=request.form["texto"]).first() == None: 
+            reclamo = Reclamo(
+                id_usuario_creador = current_user.id,
+                texto = request.form['texto']
+            )
+            db.session.add(reclamo)
+            db.session.commit()
+            print(reclamo.clasificar_reclamo)
+        return redirect(url_for('crear_reclamo'))
+    return render_template("crear_reclamo.html")
+    
 @app.route('/listar_reclamos', methods=['GET', 'POST'])
 @login_required
 def listar_reclamos():
     if request.method == 'POST':
-        # Process 
+        #process
         pass
     return render_template('listar_reclamos.html')
 
@@ -156,6 +164,9 @@ def mis_reclamos():
         pass
     return render_template('mis_reclamos.html')
 
+#-----------------------------------------------------------------------------------
+
+#ayuda
 @app.route('/ayuda', methods=['GET', 'POST'])
 @login_required
 def ayuda():
