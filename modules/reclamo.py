@@ -29,3 +29,5 @@ class Reclamo(UserMixin, db.Model):
             resultado = ''.join(cls.clasificar(descrip_reclamo))
             
         return resultado  #el metodo clasificar devuelve una lista con el valor de la clasificación
+    
+

@@ -7,6 +7,7 @@ from flask_login import login_user, login_required, current_user, logout_user
 from functools import wraps
 from modules.forms import LoginForm, RegisterForm
 from modules.config import app, db, login_manager
+from modules.clasificador import Clasificador
 
 admin_list = [1]
 
