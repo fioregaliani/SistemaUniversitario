@@ -68,6 +68,13 @@ def login():
             print(current_user)
             session['username'] = user.nombre_usuario
             print(session['username'])
+            
+            if user.claustro == 'Estudiante':
+                return redirect(url_for('estudiante_page'))
+            elif user.claustro == 'Docente':
+                return redirect(url_for('docente_page'))
+            elif user.claustro == 'PAyS':
+                return redirect(url_for('pays_page'))
 
             # return redirect(url_for('welcome', username=user.username))
             if is_admin():
@@ -75,6 +82,22 @@ def login():
             else:
                 return redirect(url_for('welcome', username=user.nombre_usuario))        
     return render_template('login.html', form=login_form)
+
+@app.route('/estudiante_page')
+def estudiante_page():
+    return render_template('estudiante_page.html')
+
+@app.route('/docente_page')
+def docente_page():
+    return render_template('docente_page.html')
+
+@app.route('/pays_page')
+def pays_page():
+    return render_template('pays_page.html')
+
+@app.route('/error_page')
+def error_page():
+    return render_template('error_page.html')
 
 @app.route("/register", methods= ["GET", "POST"])
 def register():
