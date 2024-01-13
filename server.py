@@ -158,12 +158,12 @@ def listar_reclamos():
     return render_template('listar_reclamos.html')
 
 @app.route('/mis_reclamos', methods=['GET', 'POST'])
-@login_required
+@login_required #asegura que el usuario esté registrado
 def mis_reclamos():
-    if request.method == 'POST':
-        # Process
-        pass
-    return render_template('mis_reclamos.html')
+    reclamos_usuario = Reclamo.query.filter_by(id_usuario_creador=current_user.id).all()
+    return render_template('mis_reclamos.html', reclamos=reclamos_usuario)
+
+
 
 #-----------------------------------------------------------------------------------
 
