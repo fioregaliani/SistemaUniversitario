@@ -148,7 +148,21 @@ def crear_reclamo():
             print(reclamo.clasificar_reclamo)
         return redirect(url_for('crear_reclamo'))
     return render_template("crear_reclamo.html")
-    
+
+
+@app.route('/listar_reclamos', methods=['GET', 'POST'])
+def listar_reclamos():
+    # Obtener todos los reclamos pendientes
+    reclamos = Reclamo.query.filter_by(estado="Pendiente").all()
+
+    # Aplicar filtro por departamento
+    departamento_filtro = request.args.get('departamento')
+    if departamento_filtro:
+        reclamos = [r for r in reclamos if r.depto == departamento_filtro]
+
+    return render_template('listar_reclamos.html', reclamos=reclamos, departamento_filtro=departamento_filtro)
+
+""""
 @app.route('/listar_reclamos', methods=['GET', 'POST'])
 @login_required
 def listar_reclamos():
@@ -156,13 +170,13 @@ def listar_reclamos():
         #process
         pass
     return render_template('listar_reclamos.html')
+"""    
 
 @app.route('/mis_reclamos', methods=['GET', 'POST'])
 @login_required #asegura que el usuario esté registrado
 def mis_reclamos():
     reclamos_usuario = Reclamo.query.filter_by(id_usuario_creador=current_user.id).all()
     return render_template('mis_reclamos.html', reclamos=reclamos_usuario)
-
 
 
 #-----------------------------------------------------------------------------------

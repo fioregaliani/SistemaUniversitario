@@ -1,9 +1,30 @@
-<!DOCTYPE html>
-<html>
-<body>
+{% block content %}
+   <div style="max-width: 800px; margin: 50px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
+       <h1 style="color: #333; text-align: center; margin-bottom: 30px;">Listado de Reclamos Pendientes</h1>
 
-<h1>Listar reclamos</h1>
-<p></p>
+       <form method="GET" action="/listar_reclamos" style="margin-bottom: 20px;">
+           <div style="display: flex; align-items: center; margin-bottom: 15px;">
+               <label for="departamento" style="font-size: 16px; color: #333; margin-right: 10px;">Filtrar por departamento:</label>
+               <select name="departamento" id="departamento" style="font-size: 16px; padding: 8px; border: 1px solid #ccc; border-radius: 5px; flex-grow: 1;">
+                   <option value="" {% if not departamento_filtro %}selected{% endif %}>Todos</option>
+                   <option value="maestranza" {% if departamento_filtro == 'maestranza' %}selected{% endif %}>Maestranza</option>
+                   <option value="soporte informático" {% if departamento_filtro == 'soporte informático' %}selected{% endif %}>Soporte Informático</option>
+                   <option value="secretaría técnica" {% if departamento_filtro == 'secretaría técnica' %}selected{% endif %}>Secretaría Técnica</option>
+               </select>
+               <button type="submit" style="font-size: 16px; padding: 10px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Filtrar</button>
+           </div>
+       </form>
 
-</body>
-</html>
+       <ul style="list-style: none; padding: 0; margin: 0;">
+           {% for reclamo in reclamos %}
+               <li style="margin-bottom: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);">
+                   <div style="font-size: 16px; line-height: 1.6; color: #555;">
+                       <strong>{{ reclamo.texto }}</strong> - {{ reclamo.depto }} - {{ reclamo.estado }}
+                   </div>
+               </li>
+           {% endfor %}
+       </ul>
+   </div>
+{% endblock %}
+
+
