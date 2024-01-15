@@ -161,17 +161,8 @@ def listar_reclamos():
         reclamos = [r for r in reclamos if r.depto == departamento_filtro]
 
     return render_template('listar_reclamos.html', reclamos=reclamos, departamento_filtro=departamento_filtro)
-
-""""
-@app.route('/listar_reclamos', methods=['GET', 'POST'])
-@login_required
-def listar_reclamos():
-    if request.method == 'POST':
-        #process
-        pass
-    return render_template('listar_reclamos.html')
-"""    
-
+  
+  
 @app.route('/mis_reclamos', methods=['GET', 'POST'])
 @login_required #asegura que el usuario esté registrado
 def mis_reclamos():

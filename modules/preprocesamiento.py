@@ -116,3 +116,5 @@ if __name__== "__main__":
   vectorizer.fit(X)
   print(type(vectorizer.transform(X)))
   
+
+  
