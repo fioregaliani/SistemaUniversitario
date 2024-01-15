@@ -9,12 +9,44 @@
 <body class="d-flex flex-column">
     <div class="mx-5 mt-5 d-flex flex-column">
         <h3>Crear reclamo:</h3>        
-            <form class="mx-5 mt-1 mb-3" action="/crear_reclamo" method="post">
-                <label for="texto">Descripcion del reclamo:</label><br>
-                <textarea id="texto" name="texto" rows="4" cols="50" class="form-control"></textarea><br>
-                <input type="submit" value="Enviar reclamo" class="btn btn-primary">
-            </form>
-        
+        <form class="mx-5 mt-1 mb-3" action="/crear_reclamo" method="post" onsubmit="return validarFormulario()">
+            <label for="texto">Descripcion del reclamo:</label><br>
+            <textarea id="texto" name="texto" rows="4" cols="50" class="form-control"></textarea><br>
+            <input type="submit" value="Enviar reclamo" class="btn btn-primary">
+        </form>
     </div>
+
+    <!-- Contenedor para el botón de volver -->
+    <div class="container mt-3 text-center">
+        <!-- Botón para volver a la página anterior usando JavaScript -->
+        <button class="btn btn-secondary btn-sm" onclick="goBack()">Volver a la página anterior</button>
+    </div>
+
+    <!-- Agregar el script de JavaScript para validar el formulario -->
+    <script>
+        function validarFormulario() {
+            // Obtener el valor del campo de texto
+            var textoReclamo = document.getElementById("texto").value;
+
+            // Verificar si el campo está vacío
+            if (textoReclamo.trim() === "") {
+                // Mostrar un mensaje de alerta
+                alert("Por favor, complete el campo de descripción del reclamo.");
+                // Devolver false para evitar que el formulario se envíe
+                return false;
+            }
+
+            // Devolver true para permitir que el formulario se envíe
+            return true;
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </body>
 </html>
+
+
+
+

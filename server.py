@@ -15,14 +15,14 @@ admin_list = [1]
 with app.app_context():
     db.create_all()
 
-# 4) Flask-login también requiere definir una función "user_loader",
+# Flask-login también requiere definir una función "user_loader",
 # dado un ID de usuario, devuelve el objeto usuario asociado.
 @login_manager.user_loader  
 def user_loader(user_id):
     print(user_id)
     return db.session.get(Usuario, user_id) 
 
-# 9)usuarios admin
+# usuarios admin
 def is_admin():
     if current_user.is_authenticated and current_user.id in admin_list:
         return True
@@ -111,20 +111,20 @@ def register():
         return redirect(url_for("login"))
     return render_template('register.html', form=register_form)
 
-# 8) decoramos la vista con login_required para asegurar de que el usuario actual está conectado
+# decoramos la vista con login_required para asegurar de que el usuario actual está conectado
 # y autenticado antes de llamar a la función
 @app.route("/welcome/<username>")
 @login_required
 def welcome(username):           
     return render_template('welcome.html', user=username)
 
-# 10)
+# ruta para usuarios admin
 @app.route("/admin/<username>")
 @admin_only
 def admin(username):           
     return render_template('admin.html', user=username)
 
-# 7)logout
+# logout
 @app.route("/logout")
 def logout():   
     print(current_user)  
@@ -133,7 +133,7 @@ def logout():
     session['username'] = 'Invitado' 
     return redirect(url_for('home'))
 
-# Reclamos ---------------------------------------------------------------------------------------------
+# Rutas para reclamos ---------------------------------------------------------------------------------------------
 @app.route("/crear_reclamo", methods=['GET', 'POST'])
 @login_required
 def crear_reclamo():
@@ -172,7 +172,7 @@ def mis_reclamos():
 
 #-----------------------------------------------------------------------------------
 
-#ayuda
+# Ruta para ayuda
 @app.route('/ayuda', methods=['GET', 'POST'])
 @login_required
 def ayuda():
@@ -180,6 +180,8 @@ def ayuda():
         # Process
         pass
     return render_template('ayuda.html')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
