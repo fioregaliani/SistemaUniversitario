@@ -14,7 +14,6 @@
 
         <!-- Formulario para enviar reclamo -->
         <form action="/crear_reclamo" method="post" onsubmit="return validarFormulario()">
-            <!-- Campo de descripción del reclamo -->
             <div class="mb-3">
                 <label for="texto" class="form-label">Descripción del reclamo:</label>
                 <textarea id="texto" name="texto" rows="4" class="form-control"></textarea>
@@ -26,9 +25,9 @@
         <!-- Línea divisoria -->
         <hr class="my-4">
 
-        <!-- Botón para volver a la página anterior -->
+        <!-- Botón para ir a la página de bienvenida -->
         <div class="text-center">
-            <button class="btn btn-secondary btn-sm" onclick="goBack()">Volver a la página anterior</button>
+        <button class="btn btn-secondary btn-sm" onclick="irAWelcome('{{ username }}')">Ir a la página anterior</button>
         </div>
     </div>
 
@@ -49,11 +48,22 @@
             return true;
         }
 
-        // Función para volver a la página anterior
-        function goBack() {
-            window.history.back();
+        // Obtener el nombre de usuario dinámicamente, puedes ajustar esta lógica según tu aplicación
+        var nombreUsuario = "{{ current_user.nombre_usuario }}" || "usuario_por_defecto";
+
+        // Función para ir a la página de bienvenida
+        function irAWelcome() {
+            // Construir la URL con el nombre del usuario
+            var urlBienvenida = "http://127.0.0.1:5000/welcome/" + encodeURIComponent(nombreUsuario);
+
+            // Redirigir a la URL de bienvenida
+            window.location.href = urlBienvenida;
         }
+
     </script>
 
 </body>
 </html>
+
+
+

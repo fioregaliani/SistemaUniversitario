@@ -25,6 +25,33 @@
            {% endfor %}
        </ul>
    </div>
+
+   <div class="container mt-5 p-4 bg-white shadow rounded">
+    <!-- Línea divisoria -->
+    <hr class="my-4">
+
+    <!-- Botón para ir a la página de bienvenida -->
+    <div class="text-center">
+    <button class="btn btn-secondary btn-sm" onclick="irAWelcome('{{ username }}')">Ir a la página anterior</button>
+    </div>
+   </div>
+
+   <!-- Script de JavaScript para validar el formulario y el botón de volver -->
+   <script>
+
+    // Obtener el nombre de usuario dinámicamente, puedes ajustar esta lógica según tu aplicación
+    var nombreUsuario = "{{ current_user.nombre_usuario }}" || "usuario_por_defecto";
+
+    // Función para ir a la página de bienvenida
+    function irAWelcome() {
+        // Construir la URL con el nombre del usuario
+        var urlBienvenida = "http://127.0.0.1:5000/welcome/" + encodeURIComponent(nombreUsuario);
+
+        // Redirigir a la URL de bienvenida
+        window.location.href = urlBienvenida;
+    }
+
+</script>
+
+
 {% endblock %}
-
-
