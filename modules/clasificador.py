@@ -9,7 +9,6 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-
 class Clasificador():
     """Clase que representa un clasificador de reclamos
     """

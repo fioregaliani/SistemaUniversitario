@@ -16,3 +16,6 @@ class LoginForm(FlaskForm):
     email = StringField(label='Email', validators=[DataRequired(), Email()])
     password = PasswordField(label='Contraseña', validators=[DataRequired(), Length(min=8)])
     submit = SubmitField(label='Ingresar')
+
+class ClaimForm(FlaskForm):
+    texto = StringField("Contenido", validators=[DataRequired()])

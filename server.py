@@ -3,6 +3,7 @@ from modules.usuario import Usuario
 from flask import render_template, redirect, url_for, flash, abort, session, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, current_user, logout_user
+import pickle
 
 from functools import wraps
 from modules.forms import LoginForm, RegisterForm
@@ -139,16 +140,31 @@ def logout():
 def crear_reclamo():
     if request.method == 'POST':
         if Reclamo.query.filter_by(texto=request.form["texto"]).first() == None: 
+            
+            #creo el reclamo
             reclamo = Reclamo(
                 id_usuario_creador = current_user.id,
                 texto = request.form['texto']
             )
             db.session.add(reclamo)
+            reclamo.adherentes.append(current_user)
             db.session.commit()
-            print(reclamo.clasificar_reclamo)
-        return redirect(url_for('crear_reclamo'))
-    return render_template("crear_reclamo.html")
+            
+            #clasifico el reclamo
+            text = [reclamo.texto]
+            with open('./data/clasificador_svm.pkl', 'rb') as archivo:
+                cls = pickle.load(archivo)
 
+            lista = cls.clasificar(text)
+            reclamo.depto = lista[0]
+            db.session.commit()
+            flash("El reclamo se creo exitosamente", 'success')
+        else:
+            flash("Ya existe un reclamo similar")
+            
+            #opcion adherirse a reclamo
+        return redirect(url_for('welcome', username=current_user.nombre_usuario))
+    return render_template('crear_reclamo.html', username=current_user.nombre_usuario)
 
 @app.route('/listar_reclamos', methods=['GET', 'POST'])
 def listar_reclamos():

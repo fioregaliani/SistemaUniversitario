@@ -1,7 +1,7 @@
 import nltk
 # Instalar estos paquetes si no están instalados
-# nltk.download("punkt")
-# nltk.download("stopwords")
+#nltk.download("punkt")
+#nltk.download("stopwords")
 import logging
 import numpy as np
 from nltk.tokenize import word_tokenize
@@ -11,7 +11,6 @@ import string
 from collections import Counter
 from sklearn.base import BaseEstimator, TransformerMixin
 import json
-
 
 class TextVectorizer(BaseEstimator, TransformerMixin):
   """Clase que representa un transformador de texto a vector
@@ -115,6 +114,3 @@ if __name__== "__main__":
 
   vectorizer.fit(X)
   print(type(vectorizer.transform(X)))
-  
-
-  
